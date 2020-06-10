@@ -5,6 +5,7 @@ const chatWrapperEl = document.querySelector('#chat-wrapper');
 const usernameForm = document.querySelector('#username-form');
 const messageForm = document.querySelector('#message-form');
 const messageWrapper = document.querySelector('#gameboard');
+const startGame = document.querySelector('#start-game')
 
 
 const img = document.createElement('img');
@@ -16,14 +17,6 @@ function getRandomPosition(element) {
 	const randomY = Math.floor(Math.random()* y);
 	return [randomX,randomY];
 }
-window.onload = function(){ 
-
-	const img = document.createElement('img');
-	img.setAttribute("style", "position:absolute;");
-	img.setAttribute("src", "../assets/img/virus.png");
-	document.querySelector("#gameboard").appendChild(img);
-
-};
 
 
 function addvirus(){ 
@@ -35,16 +28,63 @@ function addvirus(){
 	img.style.top = xy[0] + 'px';
 	img.style.left = xy[1] + 'px';
 };
-messageWrapper.addEventListener('click', e => { 
 
+//function to ruond a number
+function roundToOne(num) {    
+    return +(Math.round(num + "e+1")  + "e-1");
+}
+
+
+// create rection time
+let startTime;
+let endTime;
+let reactionTime;
+
+
+// click to start a new game
+startGame.addEventListener('click', e =>{
+	e.target.remove()
+	setTimeout(function() {
+		addvirus();
+		//start timer
+		startTime = Date.now();
+	}, 1500);
+})
+
+
+// evry time you click on a virus
+messageWrapper.addEventListener('click', e => { 	
 	gameImg = document.querySelector("img")
 	const virus = e.target.tagName;
+	const score = document.querySelector('#sek')
+
+	// if you cklick on the IMG and kill the virus
 	if(virus === 'IMG' ){
+		const score = document.querySelector('#sek')
+
+		//stop the timer
+		endTime = Date.now()
+		//reaction time
+		reactionTime = (endTime - startTime)/1000;
+
+		// round the result to one dec
+		const time = roundToOne(reactionTime)
+		// set reaction time on webpage
+		score.innerHTML += `<div><h4>${time} sek</h4></div>`
+		
+		console.log('it took you:',reactionTime, 'sek, to kill the virus')
 		e.target.remove();
-		addvirus();
+		setTimeout(function() {
+			addvirus();
+			//start timer
+			startTime = Date.now();
+		}, 1500);
+
 	}else{
 		console.log("NOT A VIRUS")
 	}
+	console.log()
+
 });
 
 let username = null;
