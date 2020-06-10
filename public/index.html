@@ -8,6 +8,7 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
 	<link rel="stylesheet" href="/assets/css/style.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha256-+N4/V/SbAFiW1MPBCXnfnP9QSN3+Keu+NlB+0ev/YKQ=" crossorigin="anonymous" />
 </head>
 
 <body>
@@ -15,34 +16,34 @@
 		<div id="start" class="container">
 			<form id="username-form">
 				<div class="form-group">
-					<input type="text" id="username" class="form-control form-control-lg" required placeholder="Who art thou'?">
+					<div class="game-info">
+						<h2>Kill The Virus   <img src="./assets/img/virus.svg" alt="virus"></h2>
+						<i class="fas fa-viruses"></i>
+						<p>2 player</p>
+						<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Corrupti consequuntur quisquam et, dolores esse odio fuga quas culpa, autem quo dicta, officia at iste quasi nisi officiis voluptas. Modi, dignissimos.</p>
+					</div>
+					<input type="text" id="username" class="form-control form-control-lg" required placeholder="nickname">
 				</div>
-
-				<button type="submit" class="btn btn-primary">Connect!</button>
+				<button type="submit" class="btn">Connect to the game</button>
 			</form><!-- /#username-form -->
 		</div><!-- /#start -->
 
 		<div id="chat-wrapper" class="hide">
-			<div id="chat">
+			<div id="game">
+				<!-- <div id="wating"> 
+					<h2>wating for oponenet </h2>
+					<img src="./assets/img/30-1.gif" alt="">
+				</div>  /#waiting--> 
 				<div id="message-wrapper">
-					<ul id="messages" class="list-group">
-						<!-- <li class="list-group-item list-group-item-secondary">Agneta: Hej Bengt!</li>
-						<li class="list-group-item list-group-item-secondary">Bengt: Amen tjena Agneta, läääääget?</li>
-						<li class="list-group-item list-group-item-primary">You: Alltså ni två, get a room.. 🤦‍♀️</li> -->
-					</ul>
+					<div id="gameboard"></div>
 				</div><!-- /#message-wrapper -->
-
-				<form id="message-form" class="form-inline">
-					<div class="form-group">
-						<input type="text" id="message" class="form-control" placeholder="Type something nice..." required>
-						<button type="submit" class="btn btn-outline-success">🗣</button>
-					</div>
-				</form><!-- /#message-form -->
 			</div><!-- /#chat -->
 
 			<div id="users">
-				<h2>Users online</h2>
+				<h2>Player online</h2>
 				<ul id="online-users"></ul>
+				<h2>Score</h2>
+				<h3 id="online-score">3-1</h3>
 			</div><!-- /#users -->
 		</div><!-- /#chat-wrapper -->
 	</div><!-- /#app -->

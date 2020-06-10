@@ -1,7 +1,14 @@
+/* fonts */
+@import url('https://fonts.googleapis.com/css2?family=Odibee+Sans&family=PT+Sans:wght@400;700&display=swap');
+
+/* fonts end */
+
 #app {
-	background-color: aliceblue;
+	background-color: #2F3237;
+	color: #F5EECA;
 	height: 100vh;
 	width: 100vw;
+	font-family: 'PT Sans', sans-serif;
 }
 
 .hide {
@@ -19,41 +26,66 @@
 	text-align: center;
 }
 
+#username{
+	background-color:white;
+	border-color: #2F3237;
+	color: #2F3237;
+}
+
 #chat-wrapper {
 	display: flex;
 	height: 100vh;
 }
 
-#chat {
+#game {
 	display: flex;
 	flex-direction: column;
 	flex-grow: 1;
 	border-right: 1px solid #555;
 }
 
-#chat .form-group {
+#game .form-group {
 	flex-grow: 1;
 	display: flex;
 }
 
-#chat .form-group #message {
+#game .form-group #message {
 	flex-grow: 1;
 }
+
+#wating{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+}
+
+#wating img{
+	margin-left: 20px;
+} 
 
 #users {
 	flex-basis: 20%;
 }
 
 #users h2 {
-	background-color: cornflowerblue;
+	background-color: #374D4C;
 	padding: 0.5rem 0.75rem;
-	color: white;
+	color: #F5EECA;
+	font-family: 'Odibee Sans', cursive;
 }
 
 #users ul {
 	margin: 0;
 	padding: 0.5rem 0.75rem;
 	list-style: none;
+}
+
+#users h3{
+	text-align: center;
+	font-family: 'Odibee Sans', cursive;
+	font-size: 60px;
+	margin-top: 30px;
 }
 
 #message-wrapper {
@@ -66,4 +98,42 @@
 
 #messages .notice {
 	font-style: italic;
+}
+
+.btn{
+	background-color: #F5EECA;
+	color: #2F3237;
+	padding: 15px;
+}
+.btn:hover{
+	background-color: #2F3237;
+	color: #F5EECA;
+	border: 1px solid #F5EECA;
+
+}
+
+.game-info {
+	max-width: 400px;
+}
+
+.game-info img{
+	width: 10%;
+	margin-left: 10px;
+}
+
+.game-info p{
+	font-style: italic;
+	font-size: 14px;
+	color: white;
+}
+
+.game-info h2{
+	font-family: 'Odibee Sans', cursive;
+}
+
+#gameboard {
+	height: 500px;
+	width: 500px;
+	margin: auto auto;
+	margin-top: 5em;
 }

@@ -4,6 +4,48 @@ const startEl = document.querySelector('#start');
 const chatWrapperEl = document.querySelector('#chat-wrapper');
 const usernameForm = document.querySelector('#username-form');
 const messageForm = document.querySelector('#message-form');
+const messageWrapper = document.querySelector('#gameboard');
+
+
+const img = document.createElement('img');
+
+function getRandomPosition(element) {
+	const x = document.querySelector("#gameboard").offsetHeight-element.clientHeight;
+	const y = document.querySelector("#gameboard").offsetWidth-element.clientWidth;
+	const randomX = Math.floor(Math.random()* x);
+	const randomY = Math.floor(Math.random()* y);
+	return [randomX,randomY];
+}
+window.onload = function(){ 
+
+	const img = document.createElement('img');
+	img.setAttribute("style", "position:absolute;");
+	img.setAttribute("src", "../assets/img/virus.png");
+	document.querySelector("#gameboard").appendChild(img);
+
+};
+
+
+function addvirus(){ 
+	const img = document.createElement('img');
+	img.setAttribute("style", "position:absolute;");
+	img.setAttribute("src", "../assets/img/virus.png");
+	document.querySelector("#gameboard").appendChild(img);
+	const xy = getRandomPosition(img);
+	img.style.top = xy[0] + 'px';
+	img.style.left = xy[1] + 'px';
+};
+messageWrapper.addEventListener('click', e => { 
+
+	gameImg = document.querySelector("img")
+	const virus = e.target.tagName;
+	if(virus === 'IMG' ){
+		e.target.remove();
+		addvirus();
+	}else{
+		console.log("NOT A VIRUS")
+	}
+});
 
 let username = null;
 
