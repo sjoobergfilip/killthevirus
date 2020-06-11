@@ -133,12 +133,7 @@
 
 #gameboard {
 	height: 500px;
-	width: 500px;
+	width: 700px;
 	margin: auto auto;
 	margin-top: 5em;
-}
-#start-game{
-	display: flex;
-	justify-content: center;
-	margin-top: 400px;
 }

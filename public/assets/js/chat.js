@@ -5,7 +5,6 @@ const chatWrapperEl = document.querySelector('#chat-wrapper');
 const usernameForm = document.querySelector('#username-form');
 const messageForm = document.querySelector('#message-form');
 const messageWrapper = document.querySelector('#gameboard');
-const startGame = document.querySelector('#start-game')
 
 
 const img = document.createElement('img');
@@ -40,6 +39,22 @@ function roundToTwo(num) {
     return +(Math.round(num + "e+2")  + "e-2");
 }
 
+// create rection time
+let startTime;
+let endTime;
+let reactionTime;
+
+
+
+// start a new game
+ function startNewGame() {
+	setTimeout(function() {
+		addvirus();
+		//start timer
+		startTime = Date.now();
+	}, Math.floor(Math.random() * 5000) + 1000 );
+}
+
 const updateOnlineUsers = (users) => {
 	document.querySelector('#online-users').innerHTML = users.map(user => `<li class="user">${user}</li>`).join("");
 }
@@ -48,10 +63,21 @@ const updateOnlineUsers = (users) => {
 usernameForm.addEventListener('submit', e => {
 	e.preventDefault();
 
+	waiting = document.querySelector('#wating')
+
 	username = document.querySelector('#username').value;
 	socket.emit('register-user', username, (status) => {
 		console.log("Server acknowledged the registration :D", status);
 
+		
+		//waiting for 2 player to conect
+		if(status.onlineUsers.length === 2){
+			startNewGame()
+		} else {
+			waiting.innerHTML = `<h2>wating for opponent</h2>`
+		}
+
+		
 		if (status.joinChat) {
 			startEl.classList.add('hide');
 			chatWrapperEl.classList.remove('hide');
@@ -72,25 +98,6 @@ socket.on('reconnect', () => {
 socket.on('online-users', (users) => {
 	updateOnlineUsers(users);
 });
-
-
-
-// create rection time
-let startTime;
-let endTime;
-let reactionTime;
-
-
-
-// click to start a new game
-startGame.addEventListener('click', e =>{
-	e.target.remove()
-	setTimeout(function() {
-		addvirus();
-		//start timer
-		startTime = Date.now();
-	}, Math.floor(Math.random() * 5000) + 3000 );
-})
 
 
 // evry time you click on a virus
@@ -116,7 +123,7 @@ messageWrapper.addEventListener('click', e => {
 			addvirus();
 			//start timer
 			startTime = Date.now();
-		},  Math.floor(Math.random() * 5000) + 3000 );
+		},  Math.floor(Math.random() * 5000) + 1000 );
 
 	}else{
 		console.log("NOT A VIRUS")
