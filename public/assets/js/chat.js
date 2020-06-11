@@ -20,9 +20,15 @@ function getRandomPosition(element) {
 
 
 function addvirus(){ 
+	//randomize a img that will show
+	let virusImg = `../assets/img/virus${Math.floor(Math.random() * 7) + 1}.png`
+
+	//randomize a size that will show
+	let virusAtribute = `position:absolute; width: ${Math.floor(Math.random() * 50) + 40}px;`
+
 	const img = document.createElement('img');
-	img.setAttribute("style", "position:absolute;");
-	img.setAttribute("src", "../assets/img/virus.png");
+	img.setAttribute("style", virusAtribute);
+	img.setAttribute("src", virusImg);
 	document.querySelector("#gameboard").appendChild(img);
 	const xy = getRandomPosition(img);
 	img.style.top = xy[0] + 'px';
