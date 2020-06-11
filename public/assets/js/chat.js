@@ -30,83 +30,8 @@ function addvirus(){
 };
 
 //function to ruond a number
-function roundToOne(num) {    
-    return +(Math.round(num + "e+1")  + "e-1");
-}
-
-
-// create rection time
-let startTime;
-let endTime;
-let reactionTime;
-
-
-// click to start a new game
-startGame.addEventListener('click', e =>{
-	e.target.remove()
-	setTimeout(function() {
-		addvirus();
-		//start timer
-		startTime = Date.now();
-	}, 1500);
-})
-
-
-// evry time you click on a virus
-messageWrapper.addEventListener('click', e => { 	
-	gameImg = document.querySelector("img")
-	const virus = e.target.tagName;
-	const score = document.querySelector('#sek')
-
-	// if you cklick on the IMG and kill the virus
-	if(virus === 'IMG' ){
-		const score = document.querySelector('#sek')
-
-		//stop the timer
-		endTime = Date.now()
-		//reaction time
-		reactionTime = (endTime - startTime)/1000;
-
-		// round the result to one dec
-		const time = roundToOne(reactionTime)
-		// set reaction time on webpage
-		score.innerHTML += `<div><h4>${time} sek</h4></div>`
-		
-		console.log('it took you:',reactionTime, 'sek, to kill the virus')
-		e.target.remove();
-		setTimeout(function() {
-			addvirus();
-			//start timer
-			startTime = Date.now();
-		}, 1500);
-
-	}else{
-		console.log("NOT A VIRUS")
-	}
-	console.log()
-
-});
-
-let username = null;
-
-const addNoticeToChat = (notice) => {
-	const noticeEl = document.createElement('li');
-	noticeEl.classList.add('list-group-item', 'list-group-item-light', 'notice');
-
-	noticeEl.innerHTML = notice;
-
-	document.querySelector('#messages').appendChild(noticeEl);
-}
-
-const addMessageToChat = (msg, ownMsg = false) => {
-	const msgEl = document.createElement('li');
-	msgEl.classList.add('list-group-item', 'message');
-	msgEl.classList.add(ownMsg ? 'list-group-item-primary' : 'list-group-item-secondary');
-
-	const username = ownMsg ? 'You' : msg.username;
-	msgEl.innerHTML = `<span class="user">${username}</span>: ${msg.content}`;
-
-	document.querySelector('#messages').appendChild(msgEl);
+function roundToTwo(num) {    
+    return +(Math.round(num + "e+2")  + "e-2");
 }
 
 const updateOnlineUsers = (users) => {
@@ -130,22 +55,6 @@ usernameForm.addEventListener('submit', e => {
 	});
 
 });
-
-messageForm.addEventListener('submit', e => {
-	e.preventDefault();
-
-	const messageEl = document.querySelector('#message');
-	const msg = {
-		content: messageEl.value,
-		username: document.querySelector('#username').value,
-	}
-
-	socket.emit('chatmsg', msg);
-	addMessageToChat(msg, true);
-
-	messageEl.value = '';
-});
-
 socket.on('reconnect', () => {
 	if (username) {
 		socket.emit('register-user', username, () => {
@@ -158,14 +67,55 @@ socket.on('online-users', (users) => {
 	updateOnlineUsers(users);
 });
 
-socket.on('new-user-connected', (username) => {
-	addNoticeToChat(`${username} connected to the chat 🥳!`);
+
+
+// create rection time
+let startTime;
+let endTime;
+let reactionTime;
+
+
+
+// click to start a new game
+startGame.addEventListener('click', e =>{
+	e.target.remove()
+	setTimeout(function() {
+		addvirus();
+		//start timer
+		startTime = Date.now();
+	}, Math.floor(Math.random() * 5000) + 3000 );
+})
+
+
+// evry time you click on a virus
+messageWrapper.addEventListener('click', e => { 	
+	gameImg = document.querySelector("img")
+	const virus = e.target.tagName;
+
+	// if you cklick on the IMG and kill the virus
+	if(virus === 'IMG' ){
+		const score = document.querySelector('#sek')
+
+		//stop the timer
+		endTime = Date.now()
+		//reaction time
+		reactionTime = (endTime - startTime)/1000;
+
+		// set reaction time on webpage
+		score.innerHTML += `<div><h4>${roundToTwo(reactionTime)} sek</h4></div>`
+		
+		console.log('it took you:',reactionTime, 'sek, to kill the virus')
+		e.target.remove();
+		setTimeout(function() {
+			addvirus();
+			//start timer
+			startTime = Date.now();
+		},  Math.floor(Math.random() * 5000) + 3000 );
+
+	}else{
+		console.log("NOT A VIRUS")
+	}
+	console.log()
+
 });
 
-socket.on('user-disconnected', (username) => {
-	addNoticeToChat(`${username} left the chat 😢...`);
-});
-
-socket.on('chatmsg', (msg) => {
-	addMessageToChat(msg);
-});

@@ -30,13 +30,7 @@ function handleUserDisconnect() {
 /**
  * Handle incoming chat-message
  */
-function handleChatMsg (msg) {
-	debug("Someone sent something nice: '%s'", msg);
-	//io.emit('chatmsg', msg); // emit to all connected sockets
 
-	// broadcast to all connected sockets EXCEPT ourselves
-	this.broadcast.emit('chatmsg', msg);
-}
 
 /**
  * Handle a new user connecting
@@ -62,7 +56,5 @@ module.exports = function(socket) {
 	debug(`Client ${socket.id} connected!`);
 
 	socket.on('disconnect', handleUserDisconnect);
-
-	socket.on('chatmsg', handleChatMsg);
 	socket.on('register-user', handleRegisterUser);
 }
