@@ -103,10 +103,9 @@ socket.on('online-users', (users) => {
 // evry time you click on a virus
 messageWrapper.addEventListener('click', e => { 	
 	gameImg = document.querySelector("img")
-	const virus = e.target.tagName;
 
 	// if you cklick on the IMG and kill the virus
-	if(virus === 'IMG' ){
+	if( e.target.tagName === 'IMG' ){
 		const score = document.querySelector('#sek')
 
 		//stop the timer
