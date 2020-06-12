@@ -105,7 +105,7 @@ messageWrapper.addEventListener('click', e => {
 	gameImg = document.querySelector("img")
 
 	// if you cklick on the IMG and kill the virus
-	if( e.target.tagName === 'IMG' ){
+	if(e.target.tagName === 'IMG' ){
 		const score = document.querySelector('#sek')
 
 		//stop the timer

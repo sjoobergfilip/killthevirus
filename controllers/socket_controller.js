@@ -57,6 +57,8 @@ function handleRegisterUser(username, callback) {
 	this.broadcast.emit('online-users', getOnlineUsers());
 }
 
+
+
 module.exports = function(socket) {
 	// this = io
 
