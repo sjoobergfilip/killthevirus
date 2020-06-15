@@ -33,10 +33,6 @@ function handleUserDisconnect() {
 
 }
 
-/**
- * Handle incoming chat-message
- */
-
 
 /**
  * Handle a new user connecting
