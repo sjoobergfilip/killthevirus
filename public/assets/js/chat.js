@@ -127,7 +127,5 @@ messageWrapper.addEventListener('click', e => {
 	}else{
 		console.log("NOT A VIRUS")
 	}
-	console.log()
-
 });
 
