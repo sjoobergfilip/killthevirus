@@ -14,11 +14,14 @@
 	<div id="app">
 		<div id="startPage" class="container">
 			<h1>Kill the Virus - Covid Edition</h1>
+			<div class="info-game">
+				<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora magni fugiat perferendis animi similique hic tenetur, dicta dolorum a qui sint omnis veniam dolor itaque nam, odit error quidem sequi.</p>
+			</div>
 			<form id="playerNickname-form">
 				<div class="form-group">
 					<input type="text" id="nickname" class="form-control form-control-lg" required placeholder="Nickname..">
 				</div>
-				<button type="submit" class="btn btn-success">Join Lobby</button>
+				<button type="submit" class="btn">enter the game</button>
 			</form>
 		</div>
 
@@ -29,12 +32,13 @@
 		<div id="playingField" class="hide">
 			<div id="gameBoard">
 				<div id="play">
-					<img id="virus" src="./assets/img/virus.png" alt="Virus">
+					<div id="countdown"></div>
+					<img id="virus" src="./assets/img/virus.png" alt="Virus" class="hide">
 				</div>						
 			</div>
 
 			<div id="players">
-				<h2>Players Online</h2>
+				<h2>online players</h2>
 				<ul id="players-online"></ul>
 				<div id="playerOne">
 					<h3>Player One</h3>
@@ -46,7 +50,6 @@
 					<p>Score: 0</p>
 					<p>Reactiontime:</p>
 				</div>
-				<div id="countdown"></div>
 			</div>
 		</div>
 	</div>

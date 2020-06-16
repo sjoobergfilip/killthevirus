@@ -1,7 +1,5 @@
 const socket = io();
 
-
-// QuerySelectors
 const startPage = document.querySelector('#startPage');
 const playerNickname = document.querySelector('#playerNickname-form');
 const lobbyRoom = document.querySelector('#waitForConnect');
@@ -13,29 +11,24 @@ const timer = document.querySelector('#countdown')
 
 let nickname = null;
 let playersLob = []
-
-// player One and Two
 let playerScoreOne = {
     score: 0,
 }
 let playerScoreTwo = {
     score: 0,
 }
-
-// lets over reaction time
 let startTime;
 let endTime;
 let reactionTime;
-
-
 let score = 1;
 
 
 // GENERAL FUNCTIONS
+
 const gameOver = () => {
     gameBoard.classList.add('hide')
     playingField.innerHTML = `
-    <div>
+    <div class="game-over">
         <h2>Game Over</h2>
         <h3>Result:</h3>
         <p>${playersLob[0]}: ${playerScoreOne.score}</p>
@@ -47,6 +40,9 @@ const gameOver = () => {
 const lobby = () => {
     lobbyRoom.classList.add('hide');
     playingField.classList.remove('hide');
+
+    //call on function countdown to start the coutdown
+    countDown();
 }
 
 const updatePlayersOnline = (players) => {
@@ -81,17 +77,23 @@ const scoreBoard = (gameData) => {
     }
 }
 
-let timeleft = 10;
-const downloadTimer = setInterval(function(){
-  if(timeleft <= 0){
-    clearInterval(downloadTimer);
-    document.getElementById("countdown").innerHTML = "GO";
-    startTime = Date.now();
-  } else {
-    document.getElementById("countdown").innerHTML = timeleft + " seconds remaining";
-  }
-  timeleft -= 1;
-}, 1000);
+
+// countdown when two player is joing
+const countDown = () =>{
+    let timeleft = 10;
+    let downloadTimer = setInterval(function(){
+    if(timeleft <= 0){
+        document.getElementById("countdown").classList.add('hide')
+        clearInterval(downloadTimer);
+        virus.classList.remove('hide')
+        startTime = Date.now();
+    } else {
+        document.getElementById("countdown").innerHTML = timeleft;
+     }
+    timeleft -= 1;
+    }, 1000);
+}
+
 
 const randomVirusPosition = (target) => {
     virus.classList.add('hide')
@@ -99,8 +101,8 @@ const randomVirusPosition = (target) => {
         virus.style.top = target.width + "px";
         virus.style.left = target.height + "px";
         virus.classList.remove('hide')
+        startTime = Date.now();
     }, 1000)
-    startTime = Date.now();
 }
 
 const clickedVirus = (e) => {
@@ -110,21 +112,22 @@ const clickedVirus = (e) => {
         //stop the timer
         endTime = Date.now()
         //reaction time
-        reactionTime = (endTime - startTime - 5000)/1000;
+        reactionTime = (endTime - startTime)/1000;
  
         // set reaction time on webpage
         // score.innerHTML = `<div><h4>${reactionTime} sek</h4></div>`
     }
 }
 
-const newRound = (e) => {
-    randomVirusPosition();
-    clickedVirus(e);
+/* Start new round */
+const startRound = (clickVirusPosition) => {
+    randomVirusPosition(clickVirusPosition);
 }
 
 
 // EVENT FUNCTIONS
 virus.addEventListener('click', e => {
+    clickedVirus(e);
     const data = {
         name: nickname,
         reaction: reactionTime,
@@ -165,10 +168,9 @@ socket.on('players-online', (players) => {
 	updatePlayersOnline(players);
 });
 
-
-socket.on('player-click', (target, gameData) => {
-    randomVirusPosition(target)
+socket.on('new-round', (clickVirusPosition, gameData) => {
     scoreBoard(gameData)
+    startRound(clickVirusPosition)
 });
 
 socket.on('game-over', () => {

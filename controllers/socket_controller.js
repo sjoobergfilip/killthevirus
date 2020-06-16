@@ -21,7 +21,6 @@ function getPlayersOnline() {
 	return Object.values(users);
 }
 
-
 function randomPosition (range) {
 	return Math.floor(Math.random() * range)
 };
@@ -29,7 +28,6 @@ function randomPosition (range) {
 function handlePlayerClick(data) {
 	
 	roundsPlayed ++;
-
 	console.log("games played", roundsPlayed);
 	
 	const gameData = {
@@ -37,20 +35,17 @@ function handlePlayerClick(data) {
 		score: data.score,
 		reaction: data.reaction,
 	}
-
-	console.log('this is gameData', gameData)
 	
 	const clickVirusPosition = {
 		width: randomPosition(500),
 		height: randomPosition(700)
 	}
-
+	// Emit new image
 	if (roundsPlayed < maxRounds) {		
-		// Emit new image
-		io.emit('player-click', clickVirusPosition, gameData);
-	} else {
-		roundsPlayed = 0;
+		io.emit('new-round', clickVirusPosition, gameData);
+	} else if (roundsPlayed === maxRounds){
 		io.emit('game-over')
+		roundsPlayed = 0;
 	}
 }
 

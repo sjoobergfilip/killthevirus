@@ -1,11 +1,31 @@
+/* fonts */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
+
+/* fonts end */
+
 .hide {
     display: none !important;
 }
 
 #app {
-	background-color: rgb(0, 0, 0);
+	background-color: #586F64;
+	color: #D5D6D8;
 	height: 100vh;
 	width: 100vw;
+}
+
+.btn{
+	background-color:#94B3A6;
+	color: #D5D6D8;
+	padding: 10px 20px;
+	border: #D5D6D8;
+}
+
+.info-game{
+	max-width: 300px;
+	margin: 0 auto;
+	font-size: 12px;
+	font-style: italic;
 }
 
 #startPage {
@@ -36,11 +56,11 @@
 }
 
 #play {
-	background-color: #009200;
 	height: 550px;
 	width: 780px;
 	position: relative;
 	margin: auto;
+	display: flex;
 }
 
 #virus {
@@ -55,8 +75,8 @@
 	border: 1px solid black;
 }
 
-#players h2 {
-	background-color: cornflowerblue;
+#players h2, #players h3{
+	background-color:#343C3E;
 	padding: 0.5rem 0.75rem;
 	color: white;
 }
@@ -84,4 +104,18 @@
 
 #messages .notice {
 	font-style: italic;
+}
+
+#countdown{
+	display: flex;
+	align-items: center;
+	margin: 0 auto;
+	font-family: 'Orbitron', sans-serif;
+	font-size: 70px;
+}
+
+.game-over{
+	background-color: yellow;
+	width: 100vh;
+	height: 100vh;
 }
