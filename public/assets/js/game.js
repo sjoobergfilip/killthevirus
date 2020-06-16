@@ -1,5 +1,7 @@
 const socket = io();
 
+
+// QuerySelectors
 const startPage = document.querySelector('#startPage');
 const playerNickname = document.querySelector('#playerNickname-form');
 const lobbyRoom = document.querySelector('#waitForConnect');
@@ -11,20 +13,25 @@ const timer = document.querySelector('#countdown')
 
 let nickname = null;
 let playersLob = []
+
+// player One and Two
 let playerScoreOne = {
     score: 0,
 }
 let playerScoreTwo = {
     score: 0,
 }
+
+// lets over reaction time
 let startTime;
 let endTime;
 let reactionTime;
+
+
 let score = 1;
 
 
 // GENERAL FUNCTIONS
-
 const gameOver = () => {
     gameBoard.classList.add('hide')
     playingField.innerHTML = `
@@ -74,12 +81,12 @@ const scoreBoard = (gameData) => {
     }
 }
 
-var timeleft = 10;
-var downloadTimer = setInterval(function(){
+let timeleft = 10;
+const downloadTimer = setInterval(function(){
   if(timeleft <= 0){
     clearInterval(downloadTimer);
-    startTime = Date.now() - 5000;
     document.getElementById("countdown").innerHTML = "GO";
+    startTime = Date.now();
   } else {
     document.getElementById("countdown").innerHTML = timeleft + " seconds remaining";
   }

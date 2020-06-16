@@ -37,6 +37,8 @@ function handlePlayerClick(data) {
 		score: data.score,
 		reaction: data.reaction,
 	}
+
+	console.log('this is gameData', gameData)
 	
 	const clickVirusPosition = {
 		width: randomPosition(500),
