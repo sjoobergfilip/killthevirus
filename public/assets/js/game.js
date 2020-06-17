@@ -3,7 +3,7 @@ const socket = io();
 //queryselectors
 
 const startPage = document.querySelector('#startPage');
-const playerNickname = document.querySelector('#playerNickname-form');
+const playerAlias = document.querySelector('#playerAliasForm');
 const lobbyRoom = document.querySelector('#waitForConnect');
 const playingField = document.querySelector('#playingField');
 const gameBoard = document.querySelector('#gameBoard');
@@ -165,7 +165,8 @@ const scoreBoard = (gameData) => {
 // countdown when two player is joing
 const countDown = () =>{
 
-    let timeleft = 3;
+    let timeleft = 5;
+    document.getElementById("countdown").innerHTML = 'Get ready';
     let downloadTimer = setInterval(function(){
     if(timeleft <= 0){
         document.getElementById("countdown").classList.add('hide')
@@ -223,7 +224,7 @@ virus.addEventListener('click', e => {
 })
 
 
-playerNickname.addEventListener('submit', e => {
+playerAlias.addEventListener('submit', e => {
 	e.preventDefault();
 
 	nickname = document.querySelector('#nickname').value;
