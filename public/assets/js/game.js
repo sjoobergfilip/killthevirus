@@ -23,16 +23,29 @@ let reactionTime;
 let score = 1;
 
 
+// create an arrey fore P1 and P2 to se the best reactiontime
+let allReactionTimePlayerOne = [];
+let allReactionTimePlayerTwo = [];
+
+
 // GENERAL FUNCTIONS
 
 const gameOver = () => {
+    // function to get the best reaction timte
+    const minOne = Math.min(...allReactionTimePlayerOne)
+    const minTwo = Math.min(...allReactionTimePlayerTwo)
+
+    
+
     gameBoard.classList.add('hide')
     playingField.innerHTML = `
     <div class="game-over">
         <h2>Game Over</h2>
         <h3>Result:</h3>
         <p>${playersLob[0]}: ${playerScoreOne.score}</p>
+        <p>${playersLob[0]} best reactiontime is: ${minOne}</p>
         <p>${playersLob[1]}: ${playerScoreTwo.score}</p>
+        <p>${playersLob[1]} best reactiontime is: ${minTwo}</p>
     </div>
     `
 
@@ -54,9 +67,13 @@ const updatePlayersOnline = (players) => {
 
 const scoreBoard = (gameData) => {
     if (gameData.nickname === playersLob[0]) {
-        playerScoreOne.score ++;
-        console.log("playerScoreOne", playerScoreOne)
 
+        //This is PlayerOne
+        playerScoreOne.score ++;
+
+        //push all reactiontime to an arry to find the best reactiontime
+        allReactionTimePlayerOne.push(gameData.reaction)
+ 
         const playerOneScore = document.querySelector('#playerOne');
         playerOneScore.innerHTML = 
         `<div>
@@ -65,8 +82,13 @@ const scoreBoard = (gameData) => {
             <p>Reactiontime: ${gameData.reaction}</p>
         </div>`
     } else if (gameData.nickname === playersLob[1]){
-        playerScoreTwo.score ++;
-        console.log("playerScoreTwo", playerScoreTwo)
+
+        //This is PlayerTwo
+         playerScoreTwo.score ++;
+
+        //push all reactiontime to an arry to find the best reactiontime
+        allReactionTimePlayerTwo.push(gameData.reaction)
+
         const playerTwoScore = document.querySelector('#playerTwo');
         playerTwoScore.innerHTML = 
         `<div>
@@ -80,7 +102,7 @@ const scoreBoard = (gameData) => {
 
 // countdown when two player is joing
 const countDown = () =>{
-    let timeleft = 10;
+    let timeleft = 3;
     let downloadTimer = setInterval(function(){
     if(timeleft <= 0){
         document.getElementById("countdown").classList.add('hide')
@@ -121,6 +143,7 @@ const clickedVirus = (e) => {
 
 /* Start new round */
 const startRound = (clickVirusPosition) => {
+
     randomVirusPosition(clickVirusPosition);
 }
 
@@ -173,7 +196,8 @@ socket.on('new-round', (clickVirusPosition, gameData) => {
     startRound(clickVirusPosition)
 });
 
-socket.on('game-over', () => {
+socket.on('game-over', (gameData) => {
+    scoreBoard(gameData)
     gameOver()
 })
 

@@ -8,7 +8,7 @@ let io = null;
 const users = {};
 
 let roundsPlayed = 0
-let maxRounds = 3
+let maxRounds = 5
 let players = []
 let score = {}
 let reaction = {}
@@ -26,26 +26,25 @@ function randomPosition (range) {
 };
 
 function handlePlayerClick(data) {
-	
 	roundsPlayed ++;
-	console.log("games played", roundsPlayed);
+	console.log("round nr", roundsPlayed);
+
+	const clickVirusPosition = {
+		width: randomPosition(500),
+		height: randomPosition(700)
+	}
 	
 	const gameData = {
 		nickname: data.name,
 		score: data.score,
 		reaction: data.reaction,
 	}
-	
-	const clickVirusPosition = {
-		width: randomPosition(500),
-		height: randomPosition(700)
-	}
 	// Emit new image
-	if (roundsPlayed < maxRounds) {		
+	if (roundsPlayed < maxRounds) {	
 		io.emit('new-round', clickVirusPosition, gameData);
 	} else if (roundsPlayed === maxRounds){
-		io.emit('game-over')
-		roundsPlayed = 0;
+		io.emit('game-over', gameData)
+		roundsPlayed = 0
 	}
 }
 
@@ -53,7 +52,6 @@ function checkPlayersOnline(socket) {
     if (Object.keys(users).length === 2) {
 
         io.emit('create-game-page');
-     
         console.log('players of the game: ', players);
 
     } else {
