@@ -1,14 +1,23 @@
 const socket = io();
 
+//queryselectors
+
 const startPage = document.querySelector('#startPage');
 const playerNickname = document.querySelector('#playerNickname-form');
 const lobbyRoom = document.querySelector('#waitForConnect');
 const playingField = document.querySelector('#playingField');
 const gameBoard = document.querySelector('#gameBoard');
 const virus = document.getElementById('virus');
-
 const timer = document.querySelector('#countdown')
+const players = document.querySelector('#players')
 
+// doms for game over 
+const gameOverShow = document.querySelector('#gameOverShow')
+const gameOverText = document.querySelector('#gameOverText')
+const resetButton = document.querySelector('#reset-btn')
+
+
+// variables
 let nickname = null;
 let playersLob = []
 let playerScoreOne = {
@@ -36,16 +45,23 @@ const winnerText = (winner) =>{
     const minOne = Math.min(...allReactionTimePlayerOne)
     const minTwo = Math.min(...allReactionTimePlayerTwo)
 
-    playingField.innerHTML = `
+    gameOverShow.classList.remove('hide')
+
+    gameOverText.innerHTML = `
     <div class="game-over">
         <h2>Game Over</h2>
+        <div class="winner-end">
+            <img src="./assets/img/trophy.png" alt="virus">
+            <h4>${winner}</h4>
+        </div>
         <h2>Congratulations ${winner}, you are the best to kill the virus</h2>
-        <h3>Result:</h3>
-        <p>${playersLob[0]}: ${playerScoreOne.score}</p>
-        <p>${playersLob[0]} best reactiontime is: ${minOne}</p>
-        <p>${playersLob[1]}: ${playerScoreTwo.score}</p>
-        <p>${playersLob[1]} best reactiontime is: ${minTwo}</p>
-        <p>thanks for a nice game, if you want to play agin press the button down below</p>
+        <h2>Result:</h3>
+        <h4>${playersLob[0]}</h4>
+        <p>${playerScoreOne.score} points</p>
+        <p>you best reactiontime was: ${minOne}</p>
+        <h4>${playersLob[1]}</h4>
+        <p>${playerScoreTwo.score} points</p>
+        <p>you best reactiontime was: ${minTwo}</p>
     </div>
     `
 }
@@ -56,16 +72,20 @@ const drawText = () =>{
     const minOne = Math.min(...allReactionTimePlayerOne)
     const minTwo = Math.min(...allReactionTimePlayerTwo)
 
-    playingField.innerHTML = `
+    gameOverShow.classList.remove('hide')
+
+    gameOverText.innerHTML = `
     <div class="game-over">
         <h2>Game Over</h2>
         <h2>It's a draw, you both are the best to kill the virus</h2>
-        <h3>Result:</h3>
-        <p>${playersLob[0]}: ${playerScoreOne.score}</p>
-        <p>${playersLob[0]} best reactiontime is: ${minOne}</p>
-        <p>${playersLob[1]}: ${playerScoreTwo.score}</p>
-        <p>${playersLob[1]} best reactiontime is: ${minTwo}</p>
-        <p>thanks for a nice game, if you want to play agin press the button down below</p>
+        <h2>Result:</h2>
+        <h4>${playersLob[0]}</h4>
+        <p>${playerScoreOne.score} points</p>
+        <p>you best reactiontime was: ${minOne}</p>
+        <h4>${playersLob[1]}</h4>
+        <p>${playerScoreTwo.score} points</p>
+        <p>you best reactiontime was: ${minTwo}</p>
+        
     </div>
     `
 }
@@ -86,6 +106,7 @@ const gameOver = () => {
     }
     // remove gamebord
     gameBoard.classList.add('hide')
+    players.classList.add('hide')
 }
 
 
@@ -143,6 +164,7 @@ const scoreBoard = (gameData) => {
 
 // countdown when two player is joing
 const countDown = () =>{
+
     let timeleft = 3;
     let downloadTimer = setInterval(function(){
     if(timeleft <= 0){
@@ -158,14 +180,14 @@ const countDown = () =>{
 }
 
 
-const randomVirusPosition = (target) => {
+const randomVirusPosition = (target, delay) => {
     virus.classList.add('hide')
     setTimeout(() => {
         virus.style.top = target.width + "px";
         virus.style.left = target.height + "px";
         virus.classList.remove('hide')
         startTime = Date.now();
-    }, 1000)
+    }, delay)
 }
 
 const clickedVirus = (e) => {
@@ -183,9 +205,8 @@ const clickedVirus = (e) => {
 }
 
 /* Start new round */
-const startRound = (clickVirusPosition) => {
-
-    randomVirusPosition(clickVirusPosition);
+const startRound = (clickVirusPosition ,delay) => {
+    randomVirusPosition(clickVirusPosition, delay);
 }
 
 
@@ -218,8 +239,6 @@ playerNickname.addEventListener('submit', e => {
 
 });
 
-
-
 // SOCKET FUNCTIONS
 socket.on('reconnect', () => {
 	if (nickname) {
@@ -234,9 +253,9 @@ socket.on('players-online', (players) => {
     document.querySelector('#playerTwoName').innerText = playersLob[1]
 });
 
-socket.on('new-round', (clickVirusPosition, gameData) => {
+socket.on('new-round', (clickVirusPosition, gameData, delay) => {
     scoreBoard(gameData)
-    startRound(clickVirusPosition)
+    startRound(clickVirusPosition, delay)
 });
 
 socket.on('game-over', (gameData) => {

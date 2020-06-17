@@ -8,7 +8,7 @@ let io = null;
 const users = {};
 
 let roundsPlayed = 0
-let maxRounds = 4
+let maxRounds = 10
 let players = []
 let score = {}
 let reaction = {}
@@ -16,7 +16,6 @@ let reaction = {}
 
 
 // Get nicknames of online users
- 
 function getPlayersOnline() {
 	return Object.values(users);
 }
@@ -34,6 +33,8 @@ function handlePlayerClick(data) {
 		width: randomPosition(500),
 		height: randomPosition(700)
 	}
+
+	const delay = Math.floor(Math.random() * 5900)
 	
 	const gameData = {
 		nickname: data.name,
@@ -42,7 +43,7 @@ function handlePlayerClick(data) {
 	}
 	// Emit new image
 	if (roundsPlayed < maxRounds) {	
-		io.emit('new-round', clickVirusPosition, gameData);
+		io.emit('new-round', clickVirusPosition, gameData, delay);
 	} else if (roundsPlayed === maxRounds){
 		io.emit('game-over', gameData)
 		roundsPlayed = 0

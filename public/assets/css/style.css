@@ -1,6 +1,6 @@
 /* fonts */
 @import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Questrial&family=Staatliches&display=swap');
 /* fonts end */
 
 .hide {
@@ -34,6 +34,11 @@
 	align-items: center;
 	flex-direction: column;
 	justify-content: center;
+}
+
+#startPage img{
+	width: 100px;
+	margin: 20px;
 }
 
 #playerNickname-form {
@@ -88,6 +93,10 @@
 	height: 100vh;
 }
 
+.loading-gif {
+	display: block;
+}
+
 #players ul {
 	margin: 0;
 	padding: 0.5rem 0.75rem;
@@ -114,8 +123,49 @@
 	font-size: 70px;
 }
 
-.game-over{
-	background-color: black;
+#gameOverShow{
 	width: 100vh;
 	height: 100vh;
+}
+
+
+/* Gameover layout */
+
+.game-over {
+	max-width: 400px;
+	margin: 0 auto;
+}
+
+.game-over h2{
+	text-transform: uppercase;
+	margin-top: 30px;
+	margin-bottom: 30px;
+	font-family: 'Staatliches', cursive;
+	font-size: 40px;
+}
+
+.game-over h3{
+	font-family: 'Questrial', sans-serif;
+	font-size: 25px;
+	margin-bottom: 30px;
+}
+
+.game-over h4{
+	margin-bottom: 20px;
+	text-decoration: underline;
+}
+
+.game-over span{
+	font-size: 19px;
+	font-family: 'Questrial', sans-serif;
+}
+
+.game-over p{
+	font-size: 17px;
+
+}
+
+.winner-end {
+	max-width: 300px;
+	text-align: center;
 }
