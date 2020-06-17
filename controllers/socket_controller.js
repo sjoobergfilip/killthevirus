@@ -8,7 +8,7 @@ let io = null;
 const users = {};
 
 let roundsPlayed = 0
-let maxRounds = 5
+let maxRounds = 4
 let players = []
 let score = {}
 let reaction = {}
@@ -27,6 +27,7 @@ function randomPosition (range) {
 
 function handlePlayerClick(data) {
 	roundsPlayed ++;
+	
 	console.log("round nr", roundsPlayed);
 
 	const clickVirusPosition = {

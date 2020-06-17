@@ -30,30 +30,71 @@ let allReactionTimePlayerTwo = [];
 
 // GENERAL FUNCTIONS
 
-const gameOver = () => {
+//a text when someone winns
+const winnerText = (winner) =>{
     // function to get the best reaction timte
     const minOne = Math.min(...allReactionTimePlayerOne)
     const minTwo = Math.min(...allReactionTimePlayerTwo)
 
-    
-
-    gameBoard.classList.add('hide')
     playingField.innerHTML = `
     <div class="game-over">
         <h2>Game Over</h2>
+        <h2>Congratulations ${winner}, you are the best to kill the virus</h2>
         <h3>Result:</h3>
         <p>${playersLob[0]}: ${playerScoreOne.score}</p>
         <p>${playersLob[0]} best reactiontime is: ${minOne}</p>
         <p>${playersLob[1]}: ${playerScoreTwo.score}</p>
         <p>${playersLob[1]} best reactiontime is: ${minTwo}</p>
+        <p>thanks for a nice game, if you want to play agin press the button down below</p>
     </div>
     `
-
 }
+
+//a text when it's draw
+const drawText = () =>{
+    // function to get the best reaction timte
+    const minOne = Math.min(...allReactionTimePlayerOne)
+    const minTwo = Math.min(...allReactionTimePlayerTwo)
+
+    playingField.innerHTML = `
+    <div class="game-over">
+        <h2>Game Over</h2>
+        <h2>It's a draw, you both are the best to kill the virus</h2>
+        <h3>Result:</h3>
+        <p>${playersLob[0]}: ${playerScoreOne.score}</p>
+        <p>${playersLob[0]} best reactiontime is: ${minOne}</p>
+        <p>${playersLob[1]}: ${playerScoreTwo.score}</p>
+        <p>${playersLob[1]} best reactiontime is: ${minTwo}</p>
+        <p>thanks for a nice game, if you want to play agin press the button down below</p>
+    </div>
+    `
+}
+
+// when the game is over and declair a winner
+const gameOver = () => {
+    let winner
+
+    //check who has most points
+    if (playerScoreOne.score > playerScoreTwo.score){
+        winner = playersLob[0]
+        winnerText(winner);
+    } else if (playerScoreOne.score < playerScoreTwo.score) {
+        winner = playersLob[1]
+        winnerText(winner);
+    } else {
+        drawText();
+    }
+    // remove gamebord
+    gameBoard.classList.add('hide')
+}
+
+
 const lobby = () => {
+
     lobbyRoom.classList.add('hide');
     playingField.classList.remove('hide');
-
+    document.querySelector('#playerOneName').innerText = playersLob[0]
+    document.querySelector('#playerTwoName').innerText = playersLob[1]
     //call on function countdown to start the coutdown
     countDown();
 }
@@ -77,7 +118,7 @@ const scoreBoard = (gameData) => {
         const playerOneScore = document.querySelector('#playerOne');
         playerOneScore.innerHTML = 
         `<div>
-            <h3>Player One</h3>
+            <h3>${gameData.nickname}</h3>
             <p>Score: ${gameData.score}</p>
             <p>Reactiontime: ${gameData.reaction}</p>
         </div>`
@@ -92,7 +133,7 @@ const scoreBoard = (gameData) => {
         const playerTwoScore = document.querySelector('#playerTwo');
         playerTwoScore.innerHTML = 
         `<div>
-            <h3>Player Two</h3>
+            <h3>${gameData.nickname}</h3>
             <p>Score: ${gameData.score}</p>
             <p>Reactiontime: ${gameData.reaction}</p>
         </div>`
@@ -188,7 +229,9 @@ socket.on('reconnect', () => {
 });
 
 socket.on('players-online', (players) => {
-	updatePlayersOnline(players);
+    updatePlayersOnline(players);
+    document.querySelector('#playerOneName').innerText = playersLob[0]
+    document.querySelector('#playerTwoName').innerText = playersLob[1]
 });
 
 socket.on('new-round', (clickVirusPosition, gameData) => {
@@ -198,7 +241,7 @@ socket.on('new-round', (clickVirusPosition, gameData) => {
 
 socket.on('game-over', (gameData) => {
     scoreBoard(gameData)
-    gameOver()
+    gameOver(gameData)
 })
 
 socket.on('create-game-page', lobby);
